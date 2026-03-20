@@ -1,6 +1,7 @@
-# Sebastian Noel Port - [snoel.dev](https://snoel.dev)
+<!-- # [snoel.dev](https://snoel.dev) -->
 
-Link above not yet active...
+# Sebastian Noel Port
+### 🚧Under construction...🚧
 
 ## Tech Stack
 
