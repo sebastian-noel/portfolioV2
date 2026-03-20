@@ -1,5 +1,11 @@
-# portfolioV2
+# Sebastian Noel Port - [snoel.dev](https://snoel.dev)
 
-Personal Portfolio
+Link above not yet active...
 
-Created with Next.js
+## Tech Stack
+
+- **Framework:** Next.js + TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Animation:** GSAP
+- **Global counter:** Upstash Redis
+- **Hosting:** Vercel
