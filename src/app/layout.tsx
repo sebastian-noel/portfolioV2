@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Rubik, Geist } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -26,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${rubik.variable} ${generalSans.variable}`}>
+    <html lang="en" className={cn(rubik.variable, generalSans.variable, "font-sans", geist.variable)}>
       <body className="antialiased">{children}</body>
     </html>
   );
