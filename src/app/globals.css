@@ -9,7 +9,7 @@
   --color-background: #090910;
   --color-primary: #98a0e6;
   --color-secondary: #22358c;
-  --color-accent: #7b91f4;
+  --color-accent: #6e78d1;
 
   --font-sans: var(--font-rubik);
   --font-display: var(--font-general-sans);
@@ -59,8 +59,6 @@ body {
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Dark-only site — no light mode values needed. These are shadcn's internal
-   component tokens. Our design system colors live in the @theme block above. */
 :root {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
