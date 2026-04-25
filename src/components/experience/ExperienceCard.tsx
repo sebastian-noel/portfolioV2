@@ -1,9 +1,12 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useRef, type Ref } from "react";
+import { ExternalLink } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { cn } from "@/lib/utils";
+import { cn, parseBold } from "@/lib/utils";
 import { formatDateRange } from "@/data/experience";
 import type { Experience } from "@/types/experience";
 import ImageCarousel from "./ImageCarousel";
@@ -35,9 +38,20 @@ export default function ExperienceCard({
   return (
     <article
       ref={ref}
-      className="flex flex-col gap-4 rounded-lg border border-secondary bg-secondary/10 p-6"
+      className="relative flex flex-col gap-4 rounded-lg border border-secondary bg-secondary/10 p-6"
     >
-      <div className="flex items-start justify-between gap-3">
+      {/* Company logo anchored to the top-right of the card */}
+      <div className="absolute right-6 top-6 h-25 w-25 overflow-hidden rounded-md border border-secondary">
+        <Image
+          src={experience.logo}
+          alt={`${experience.organization} logo`}
+          fill
+          sizes="625px"
+          className="object-cover"
+        />
+      </div>
+
+      <div className="flex items-center gap-2">
         <span className="inline-flex items-center rounded-full border border-secondary bg-secondary/40 px-2.5 py-0.5 text-xs font-light text-primary">
           {experience.type}
         </span>
@@ -62,6 +76,11 @@ export default function ExperienceCard({
 
       <p className="text-text/90">{experience.description}</p>
 
+      <ImageCarousel
+        images={experience.images}
+        alt={`${experience.title} at ${experience.organization}`}
+      />
+
       <ul className="flex flex-col gap-1.5 pl-4">
         {experience.bullets.map((bullet, i) => (
           <li
@@ -72,7 +91,7 @@ export default function ExperienceCard({
               "before:absolute before:-left-4 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-primary"
             )}
           >
-            {bullet}
+            {parseBold(bullet)}
           </li>
         ))}
       </ul>
@@ -88,10 +107,22 @@ export default function ExperienceCard({
         ))}
       </div>
 
-      <ImageCarousel
-        images={experience.images}
-        alt={`${experience.title} at ${experience.organization}`}
-      />
+      {experience.links && experience.links.length > 0 && (
+        <div className="flex flex-wrap gap-2 border-t border-secondary pt-4">
+          {experience.links.map(({ label, url }) => (
+            <Link
+              key={url}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md border border-secondary bg-background px-3 py-1.5 text-xs text-primary transition-colors hover:border-accent/60 hover:text-accent"
+            >
+              {label}
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          ))}
+        </div>
+      )}
     </article>
   );
 }

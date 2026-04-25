@@ -1,21 +1,48 @@
 import type { Experience } from "@/types/experience";
 
-// Placeholder images — headshot is the only image in /public/images today.
-// Once real experience photos land in /public/images/experience/, swap these.
+// Placeholder images/logo — headshot is the only image in /public/images today.
+// Once real assets land in /public/images/experience/, swap these.
 const PLACEHOLDER_IMAGES: [string, string, string] = [
   "/images/headshot.jpg",
   "/images/headshot.jpg",
   "/images/headshot.jpg",
 ];
+const PLACEHOLDER_LOGO = "/images/headshot.jpg";
 
 const entries: Experience[] = [
   {
-    id: "ucf-research-2026",
+    id: "bny-internship-2026",
+    type: "Internship",
+    title: "Software Engineering Intern",
+    organization: "Bank of New York",
+    startDate: "2026-01",
+    endDate: "2026-04",
+    description:
+      "Developed an autonomous AI agent system that monitors live microservice applications, detects infrastructure failures, and automatically implements an action plan for their remediation using a machine learning pipeline with an LLM fallback.",
+    bullets: [
+      "Built a 4-stage **autonomous agent pipeline** (Collect → Detect → Decide → Execute) in **Python** and **FastAPI**",
+      "Integrated **4** monitoring sources in parallel via ThreadPoolExecutor, reducing collection time by **~75%**.",
+      "Engineered **8-feature** ML vectors per service from **Prometheus**, **Docker SDK**, and **AppDynamics** telemetry.",
+      "Trained an **IsolationForest** + **XGBoost** ensemble on **4,250** synthetic samples across **6** fault classifications.",
+      "Achieved **sub-90-second** fault-to-remediation latency by eliminating LLM calls for high-confidence detections.",
+      "Orchestrated a **Chaos Monkey** injecting **2** fault types (container kill, latency injection) across **5** microservices.",
+      "Persisted all incidents, anomalies, and actions to **PostgreSQL**, surfaced via **Spring Boot** REST API and **React** UI."
+    ],
+    skills: ["Python", "Java", "TypeScript", "SQL", "FastAPI", "Spring Boot", "React", "Tailwind CSS", "scikit-learn", "XGBoost", "RandomForestClassifier", "NumPy", "pandas", "PostgreSQL", "Docker", "Grafana", "Prometheus", "AppDynamics"],
+    images: ["/images/experiences/bny-cohort.jpg", "/images/experiences/bny-team.jpg"],
+    logo: "/images/logos/bny.png",
+    links: [
+      { label: "BNY", url: "https://www.bny.com" },
+      { label: "Allen's Linkedin Post", url: "https://www.linkedin.com/feed/update/urn:li:activity:7453282455933034496/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEaOB8cBptJFEMbgLPYjdZHzba255eLi3qs"}
+    ],
+  },
+  {
+    id: "crcv-research-2026",
     type: "Research",
     title: "Undergraduate Researcher",
-    organization: "Placeholder Research Lab",
+    organization: "Center for Research in Computer Vision (CRCV)",
     startDate: "2026-01",
-    endDate: "Present",
+    endDate: "2026-04",
     description:
       "Placeholder description for an ongoing research role. Swap this out with a one-sentence framing of the project and your role on it.",
     bullets: [
@@ -25,23 +52,10 @@ const entries: Experience[] = [
     ],
     skills: ["Python", "PyTorch", "Research", "Data Analysis"],
     images: PLACEHOLDER_IMAGES,
-  },
-  {
-    id: "bny-internship-2026",
-    type: "Internship",
-    title: "Software Engineering Intern",
-    organization: "Bank of New York",
-    startDate: "2026-01",
-    endDate: "2026-04",
-    description:
-      "Placeholder description for a summer internship. Lead with the product area or team you joined.",
-    bullets: [
-      "Shipped a placeholder feature that reached N users.",
-      "Reduced a placeholder metric from X to Y.",
-      "Collaborated across a placeholder number of teams to land the project.",
+    logo: PLACEHOLDER_LOGO,
+    links: [
+      { label: "CRCV", url: "https://www.crcv.ucf.edu" },
     ],
-    skills: ["TypeScript", "React", "Next.js", "PostgreSQL"],
-    images: PLACEHOLDER_IMAGES,
   },
   {
     id: "placeholder-leadership-2024",
@@ -59,6 +73,7 @@ const entries: Experience[] = [
     ],
     skills: ["Leadership", "Event Planning", "Mentoring"],
     images: PLACEHOLDER_IMAGES,
+    logo: PLACEHOLDER_LOGO,
   },
   {
     id: "placeholder-internship-2024",
@@ -76,6 +91,7 @@ const entries: Experience[] = [
     ],
     skills: ["Go", "Docker", "gRPC", "AWS"],
     images: PLACEHOLDER_IMAGES,
+    logo: PLACEHOLDER_LOGO,
   },
 ];
 

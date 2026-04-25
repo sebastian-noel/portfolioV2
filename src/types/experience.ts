@@ -12,5 +12,7 @@ export interface Experience {
   description: string;
   bullets: string[];
   skills: string[];
-  images: [string, string, string];
+  images: [string, ...string[]];
+  logo: string;
+  links?: { label: string; url: string }[];
 }
