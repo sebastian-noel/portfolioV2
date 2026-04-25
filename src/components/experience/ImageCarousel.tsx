@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ImageCarouselProps {
   images: [string, string, string];
@@ -18,7 +19,9 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const activeIndexRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const isTransitioning = useRef(false);
 
   useGSAP(
     () => {
@@ -47,7 +50,14 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
             { opacity: 1, duration: FADE_DURATION, ease: "power2.inOut" },
             "<"
           )
-          .call(() => setActiveIndex(nextIndex), [], "<");
+          .call(
+            () => {
+              activeIndexRef.current = nextIndex;
+              setActiveIndex(nextIndex);
+            },
+            [],
+            "<"
+          );
       });
 
       timelineRef.current = tl;
@@ -55,12 +65,69 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
     { scope: containerRef }
   );
 
+  // Manually crossfade to a target slide, then restart the auto-scroll timeline
+  // from the point where that slide is visible so auto-play resumes naturally.
+  const goToSlide = useCallback(
+    (targetIndex: number) => {
+      if (isTransitioning.current) return;
+      const slides = slideRefs.current.filter(
+        (el): el is HTMLDivElement => el !== null
+      );
+      if (slides.length === 0) return;
+
+      const currentIndex = activeIndexRef.current;
+      if (targetIndex === currentIndex) return;
+
+      isTransitioning.current = true;
+
+      // Pause auto-scroll while we manually transition
+      timelineRef.current?.pause();
+
+      gsap.to(slides[currentIndex], {
+        opacity: 0,
+        duration: FADE_DURATION,
+        ease: "power2.inOut",
+      });
+      gsap.to(slides[targetIndex], {
+        opacity: 1,
+        duration: FADE_DURATION,
+        ease: "power2.inOut",
+        onComplete: () => {
+          activeIndexRef.current = targetIndex;
+          setActiveIndex(targetIndex);
+          isTransitioning.current = false;
+
+          // Jump the looping timeline to the moment right after targetIndex
+          // becomes visible so auto-play waits the full SLIDE_DURATION before
+          // advancing. Each cycle in the timeline is SLIDE_DURATION + FADE_DURATION.
+          const cycleLength = SLIDE_DURATION + FADE_DURATION;
+          const resumeTime = targetIndex * cycleLength + FADE_DURATION;
+          timelineRef.current?.play(resumeTime);
+        },
+      });
+    },
+    [images.length]
+  );
+
+  const goToPrev = useCallback(() => {
+    const prev =
+      (activeIndexRef.current - 1 + images.length) % images.length;
+    goToSlide(prev);
+  }, [goToSlide, images.length]);
+
+  const goToNext = useCallback(() => {
+    const next = (activeIndexRef.current + 1) % images.length;
+    goToSlide(next);
+  }, [goToSlide, images.length]);
+
   return (
     <div ref={containerRef} className="flex flex-col gap-2">
       <div
-        className="relative aspect-[16/9] w-full overflow-hidden rounded-md border border-secondary"
+        className="group relative aspect-[16/9] w-full overflow-hidden rounded-md border border-secondary"
         onMouseEnter={() => timelineRef.current?.pause()}
-        onMouseLeave={() => timelineRef.current?.resume()}
+        onMouseLeave={() => {
+          if (!isTransitioning.current) timelineRef.current?.resume();
+        }}
       >
         {images.map((src, i) => (
           <div
@@ -79,6 +146,22 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
             />
           </div>
         ))}
+
+        {/* Arrow buttons — visible on hover */}
+        <button
+          onClick={goToPrev}
+          aria-label="Previous image"
+          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-background/60 p-1 text-text opacity-0 backdrop-blur-sm transition-opacity hover:bg-background/80 group-hover:opacity-100"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <button
+          onClick={goToNext}
+          aria-label="Next image"
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-background/60 p-1 text-text opacity-0 backdrop-blur-sm transition-opacity hover:bg-background/80 group-hover:opacity-100"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
       </div>
 
       <div className="flex justify-center gap-1.5">

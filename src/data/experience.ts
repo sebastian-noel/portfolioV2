@@ -27,12 +27,12 @@ const entries: Experience[] = [
     images: PLACEHOLDER_IMAGES,
   },
   {
-    id: "placeholder-internship-2025",
+    id: "bny-internship-2026",
     type: "Internship",
     title: "Software Engineering Intern",
-    organization: "Placeholder Company",
-    startDate: "2025-05",
-    endDate: "2025-08",
+    organization: "Bank of New York",
+    startDate: "2026-01",
+    endDate: "2026-04",
     description:
       "Placeholder description for a summer internship. Lead with the product area or team you joined.",
     bullets: [
