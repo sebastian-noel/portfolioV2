@@ -28,7 +28,7 @@ const entries: Experience[] = [
       "Orchestrated a **Chaos Monkey** injecting **2** fault types (container kill, latency injection) across **5** microservices.",
       "Persisted all incidents, anomalies, and actions to **PostgreSQL**, surfaced via **Spring Boot** REST API and **React** UI."
     ],
-    skills: ["Python", "Java", "TypeScript", "SQL", "FastAPI", "Spring Boot", "React", "Tailwind CSS", "scikit-learn", "XGBoost", "RandomForestClassifier", "NumPy", "pandas", "PostgreSQL", "Docker", "Grafana", "Prometheus", "AppDynamics"],
+    skills: ["Python", "Java", "PostgreSQL", "FastAPI", "Spring Boot", "Docker", "Grafana", "Prometheus", "AppDynamics"],
     images: ["/images/experiences/bny-cohort.jpg", "/images/experiences/bny-team.jpg"],
     logo: "/images/logos/bny.png",
     links: [

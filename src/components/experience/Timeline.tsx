@@ -132,34 +132,33 @@ export default function Timeline({ experiences }: TimelineProps) {
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Secondary rail — high water mark, never shrinks */}
+      {/* Rails are desktop-only — mobile drops the timeline visualization entirely. */}
       <div
         ref={highWaterRef}
-        className="absolute left-6 top-0 w-px bg-secondary"
+        className="absolute left-6 top-0 hidden w-px bg-secondary md:block"
         style={{
           height: 0,
           maskImage: "linear-gradient(to bottom, black calc(100% - 24px), transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, black calc(100% - 24px), transparent 100%)",
         }}
       />
-      {/* Accent fill — scrubs with current scroll, fades tail when not at frontier */}
       <div
         ref={accentFillRef}
-        className="absolute left-6 top-0 w-px bg-accent"
+        className="absolute left-6 top-0 hidden w-px bg-accent md:block"
         style={{ height: 0 }}
       />
 
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-8 md:gap-12">
         {experiences.map((experience, i) => {
           const isOngoing = experience.endDate === "Present";
           return (
-            <div key={experience.id} className="relative pl-16">
+            <div key={experience.id} className="relative md:pl-16">
               <span
                 ref={(el) => {
                   dotRefs.current[i] = el;
                 }}
                 className={cn(
-                  "absolute left-6 top-6 h-3 w-3 -translate-x-1/2 rounded-full ring-4 ring-background",
+                  "absolute left-6 top-6 hidden h-3 w-3 -translate-x-1/2 rounded-full ring-4 ring-background md:block",
                   isOngoing ? "bg-accent" : "bg-primary"
                 )}
               />

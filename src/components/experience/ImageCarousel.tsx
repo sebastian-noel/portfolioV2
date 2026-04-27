@@ -149,19 +149,20 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
         ))}
 
         {/* Arrow buttons — visible on hover */}
+        {/* Arrows visible by default on touch devices; hover-reveal preserved at md+. */}
         <button
           onClick={goToPrev}
           aria-label="Previous image"
-          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-secondary bg-secondary/30 p-2 text-secondary opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100"
+          className="absolute left-1.5 top-1/2 -translate-y-1/2 rounded-full border border-secondary bg-secondary/30 p-1 text-secondary opacity-100 backdrop-blur-sm transition-opacity md:left-2 md:p-2 md:opacity-0 md:group-hover:opacity-100"
         >
-          <ChevronLeft className="h-6 w-6 transition-transform hover:scale-150" />
+          <ChevronLeft className="h-3.5 w-3.5 transition-transform hover:scale-150 md:h-6 md:w-6" />
         </button>
         <button
           onClick={goToNext}
           aria-label="Next image"
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-secondary bg-secondary/30 p-2 text-secondary opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100"
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-full border border-secondary bg-secondary/30 p-1 text-secondary opacity-100 backdrop-blur-sm transition-opacity md:right-2 md:p-2 md:opacity-0 md:group-hover:opacity-100"
         >
-          <ChevronRight className="h-6 w-6 transition-transform hover:scale-150" />
+          <ChevronRight className="h-3.5 w-3.5 transition-transform hover:scale-150 md:h-6 md:w-6" />
         </button>
       </div>
 

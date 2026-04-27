@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-20">
-      <header className="mb-16 flex flex-col gap-3">
-        <h1 className="text-5xl font-bold text-text">Experience</h1>
-        <p className="text-primary">
+    <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-20">
+      <header className="mb-10 flex flex-col gap-3 md:mb-16">
+        <h1 className="text-3xl font-bold text-text sm:text-4xl md:text-5xl">Experience</h1>
+        <p className="text-sm text-primary md:text-base">
           A running timeline of internships, research, and leadership — newest first.
         </p>
       </header>
