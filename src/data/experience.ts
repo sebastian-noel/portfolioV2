@@ -10,6 +10,27 @@ const PLACEHOLDER_IMAGES: [string, string, string] = [
 const PLACEHOLDER_LOGO = "/images/headshot.jpg";
 
 const entries: Experience[] = [
+    {
+    id: "ist-internship-2026",
+    type: "Internship",
+    title: "Software Engineering Intern",
+    organization: "UCF Institute for Simulation and Training (IST)",
+    startDate: "2026-05",
+    endDate: "2026-07",
+    description:
+      "METIL Simjam Internship — Placeholder description for an upcoming internship. Focus on the project or team you’ll be working with, and what you hope to learn.",
+    bullets: [
+      "Built a placeholder pipeline processing X events per day.",
+      "Wrote placeholder number of tests covering placeholder percent of the codebase.",
+      "Presented a placeholder demo to a cross-functional audience.",
+    ],
+    skills: ["Unity", "C++", "AI", "Simulation"],
+    images: PLACEHOLDER_IMAGES,
+    logo: PLACEHOLDER_LOGO,
+    links: [
+      { label: "IST", url: "https://www.ist.ucf.edu/" },
+    ],
+  },
   {
     id: "bny-internship-2026",
     type: "Internship",
@@ -21,7 +42,7 @@ const entries: Experience[] = [
       "Developed an autonomous AI agent system that monitors live microservice applications, detects infrastructure failures, and automatically implements an action plan for their remediation using a machine learning pipeline with an LLM fallback.",
     bullets: [
       "Built a 4-stage **autonomous agent pipeline** (Collect → Detect → Decide → Execute) in **Python** and **FastAPI**",
-      "Integrated **4** monitoring sources in parallel via ThreadPoolExecutor, reducing collection time by **~75%**.",
+      "Integrated **4** monitoring sources in parallel via ThreadPoolExecutor, reducing collection time by **75%**.",
       "Engineered **8-feature** ML vectors per service from **Prometheus**, **Docker SDK**, and **AppDynamics** telemetry.",
       "Trained an **IsolationForest** + **XGBoost** ensemble on **4,250** synthetic samples across **6** fault classifications.",
       "Achieved **sub-90-second** fault-to-remediation latency by eliminating LLM calls for high-confidence detections.",
