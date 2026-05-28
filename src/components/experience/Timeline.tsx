@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -20,7 +21,10 @@ export default function Timeline({ experiences }: TimelineProps) {
   const highWaterRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const terminalDotRef = useRef<HTMLSpanElement>(null);
+  const terminalTextRef = useRef<HTMLParagraphElement>(null);
   const maxProgressRef = useRef(0);
+  const autoExtendFiredRef = useRef(false);
 
   useGSAP(
     () => {
@@ -100,6 +104,47 @@ export default function Timeline({ experiences }: TimelineProps) {
           },
         }
       );
+      // Terminal dot: fires once when the last card enters the viewport.
+      const lastCard = cards[cards.length - 1];
+      const terminalDot = terminalDotRef.current;
+      const terminalText = terminalTextRef.current;
+      if (lastCard && terminalDot && terminalText) {
+        gsap.set(terminalDot, { opacity: 0, scale: 0 });
+        gsap.set(terminalText, { opacity: 0 });
+        ScrollTrigger.create({
+          trigger: lastCard,
+          start: "top 60%",
+          once: true,
+          onEnter: () => {
+            if (autoExtendFiredRef.current) return;
+            autoExtendFiredRef.current = true;
+
+            const dotTop =
+              terminalDot.getBoundingClientRect().top -
+              container.getBoundingClientRect().top;
+
+            // Extend the permanent high-water rail to the terminal dot.
+            // The accent fill is scrub-driven and handles itself via scroll.
+            gsap.to(highWaterRef.current, {
+              height: dotTop,
+              duration: 2,
+              ease: "power2.inOut",
+              overwrite: "auto",
+              onComplete: () => {
+                gsap.to(terminalDot, {
+                  opacity: 1,
+                  scale: 1,
+                  duration: 0.4,
+                  ease: "back.out(1.7)",
+                  onComplete: () => {
+                    gsap.to(terminalText, { opacity: 1, duration: 0.6, ease: "power2.out" });
+                  },
+                });
+              },
+            });
+          },
+        });
+      }
     },
     { scope: containerRef, dependencies: [experiences.length] }
   );
@@ -112,6 +157,7 @@ export default function Timeline({ experiences }: TimelineProps) {
     if (!container || !fill) return;
 
     const handleScroll = () => {
+      if (autoExtendFiredRef.current) return;
       const rect = container.getBoundingClientRect();
       const progress = Math.max(
         0,
@@ -135,7 +181,7 @@ export default function Timeline({ experiences }: TimelineProps) {
       {/* Rails are desktop-only — mobile drops the timeline visualization entirely. */}
       <div
         ref={highWaterRef}
-        className="absolute left-6 top-0 hidden w-px bg-secondary md:block"
+        className="absolute left-6 top-6 hidden w-px bg-secondary md:block"
         style={{
           height: 0,
           maskImage: "linear-gradient(to bottom, black calc(100% - 24px), transparent 100%)",
@@ -144,7 +190,7 @@ export default function Timeline({ experiences }: TimelineProps) {
       />
       <div
         ref={accentFillRef}
-        className="absolute left-6 top-0 hidden w-px bg-accent md:block"
+        className="absolute left-6 top-6 hidden w-px bg-accent md:block"
         style={{ height: 0 }}
       />
 
@@ -171,6 +217,31 @@ export default function Timeline({ experiences }: TimelineProps) {
             </div>
           );
         })}
+      </div>
+
+      {/* Terminal marker — desktop only, revealed by the slow auto-extend animation. */}
+      <div className="relative mt-8 hidden md:block md:mt-12 md:pl-16">
+        <span
+          ref={terminalDotRef}
+          className="absolute left-6 top-0 h-3 w-3 -translate-x-1/2 rounded-full bg-primary ring-4 ring-background"
+          style={{ opacity: 0 }}
+        />
+        <p
+          ref={terminalTextRef}
+          className="text-sm italic text-primary/50"
+          style={{ opacity: 0 }}
+        >
+          {"$ git init && git commit -m \"initial commit\" && git remote add origin "}
+          <Link
+            href="https://github.com/sebastian-noel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline transition-colors hover:text-accent"
+          >
+            git@github.com:sebastian-noel/portfolio.git
+          </Link>
+          {" && git push -u origin main"}
+        </p>
       </div>
     </div>
   );
