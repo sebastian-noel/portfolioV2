@@ -30,6 +30,7 @@ const entries: Experience[] = [
     links: [
       { label: "IST", url: "https://www.ist.ucf.edu/" },
     ],
+    incoming: true,
   },
   {
     id: "bny-internship-2026",

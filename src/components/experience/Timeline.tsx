@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import type { Experience } from "@/types/experience";
 import ExperienceCard from "./ExperienceCard";
+import IncomingExperienceCard from "./IncomingExperienceCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -208,12 +209,21 @@ export default function Timeline({ experiences }: TimelineProps) {
                   isOngoing ? "bg-accent" : "bg-primary"
                 )}
               />
-              <ExperienceCard
-                experience={experience}
-                ref={(el) => {
-                  cardRefs.current[i] = el;
-                }}
-              />
+              {experience.incoming ? (
+                <IncomingExperienceCard
+                  experience={experience}
+                  ref={(el) => {
+                    cardRefs.current[i] = el;
+                  }}
+                />
+              ) : (
+                <ExperienceCard
+                  experience={experience}
+                  ref={(el) => {
+                    cardRefs.current[i] = el;
+                  }}
+                />
+              )}
             </div>
           );
         })}

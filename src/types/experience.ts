@@ -15,4 +15,7 @@ export interface Experience {
   images: [string, ...string[]];
   logo: string;
   links?: { label: string; url: string }[];
+  // Marks a future position not yet started — renders a compact card with no
+  // carousel or bullet points.
+  incoming?: boolean;
 }
