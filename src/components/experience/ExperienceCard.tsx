@@ -22,6 +22,7 @@ export default function ExperienceCard({
 }: ExperienceCardProps) {
   const isOngoing = experience.endDate === "Present";
   const badgeRef = useRef<HTMLSpanElement>(null);
+  const chevronRef = useRef<HTMLSpanElement>(null);
   const [expanded, setExpanded] = useState(false);
   const hasLinks = !!experience.links && experience.links.length > 0;
 
@@ -36,6 +37,26 @@ export default function ExperienceCard({
       ease: "sine.inOut",
     });
   }, [isOngoing]);
+
+  // Chevron bob + rotation handled fully by GSAP so the two transforms
+  // don't conflict (Tailwind and GSAP both write to the transform property).
+  useGSAP(() => {
+    if (!chevronRef.current) return;
+    gsap.killTweensOf(chevronRef.current);
+    if (expanded) {
+      gsap.to(chevronRef.current, { y: 0, rotation: 180, duration: 0.35, ease: "power2.inOut" });
+    } else {
+      gsap.to(chevronRef.current, { rotation: 0, duration: 0.35, ease: "power2.inOut" });
+      gsap.to(chevronRef.current, {
+        y: 3,
+        duration: 0.9,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 0.35,
+      });
+    }
+  }, [expanded]);
 
   return (
     <article
@@ -94,7 +115,19 @@ export default function ExperienceCard({
       <ImageCarousel
         images={experience.images}
         alt={`${experience.title} at ${experience.organization}`}
-      />
+      >
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+          className="flex w-40 items-center justify-center gap-2 rounded-full border border-accent/50 bg-background/75 px-5 py-2 text-sm font-semibold text-text shadow-[0_0_10px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-colors hover:border-accent hover:bg-background/85 hover:text-accent"
+        >
+          {expanded ? "Hide details" : "Show details"}
+          <span ref={chevronRef}>
+            <ChevronDown className="h-4 w-4" />
+          </span>
+        </button>
+      </ImageCarousel>
 
       {/* Collapsible region — uses the grid-rows 0fr↔1fr trick so content
           height animates smoothly without measuring it in JS. */}
@@ -141,20 +174,6 @@ export default function ExperienceCard({
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        aria-expanded={expanded}
-        className="flex w-full items-center justify-center gap-2 rounded-md border border-secondary bg-secondary/20 px-4 py-2.5 text-sm font-medium text-primary transition-colors hover:border-accent/60 hover:bg-secondary/40 hover:text-accent"
-      >
-        {expanded ? "Show less" : "Show more"}
-        <ChevronDown
-          className={cn(
-            "h-4 w-4 transition-transform",
-            expanded && "rotate-180"
-          )}
-        />
-      </button>
     </article>
   );
 }

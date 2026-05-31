@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
@@ -10,12 +10,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface ImageCarouselProps {
   images: [string, ...string[]];
   alt: string;
+  children?: ReactNode;
 }
 
 const SLIDE_DURATION = 4; // seconds each slide is visible before crossfading
 const FADE_DURATION = 0.8; // seconds the crossfade itself takes
 
-export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
+export default function ImageCarousel({ images, alt, children }: ImageCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
@@ -153,17 +154,23 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
         <button
           onClick={goToPrev}
           aria-label="Previous image"
-          className="absolute left-1.5 top-1/2 -translate-y-1/2 rounded-full border border-secondary bg-secondary/30 p-1 text-secondary opacity-100 backdrop-blur-sm transition-opacity md:left-2 md:p-2 md:opacity-0 md:group-hover:opacity-100"
+          className="absolute left-1.5 top-1/2 -translate-y-1/2 rounded-full border border-primary bg-background/50 p-1 text-primary opacity-100 backdrop-blur-sm transition-opacity md:left-2 md:p-2 md:opacity-0 md:group-hover:opacity-100"
         >
           <ChevronLeft className="h-3.5 w-3.5 transition-transform hover:scale-150 md:h-6 md:w-6" />
         </button>
         <button
           onClick={goToNext}
           aria-label="Next image"
-          className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-full border border-secondary bg-secondary/30 p-1 text-secondary opacity-100 backdrop-blur-sm transition-opacity md:right-2 md:p-2 md:opacity-0 md:group-hover:opacity-100"
+          className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-full border border-primary bg-background/50 p-1 text-primary opacity-100 backdrop-blur-sm transition-opacity md:right-2 md:p-2 md:opacity-0 md:group-hover:opacity-100"
         >
           <ChevronRight className="h-3.5 w-3.5 transition-transform hover:scale-150 md:h-6 md:w-6" />
         </button>
+
+        {children && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2">
+            {children}
+          </div>
+        )}
       </div>
 
       <div className="flex justify-center gap-1.5">

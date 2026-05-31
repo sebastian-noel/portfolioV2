@@ -10,7 +10,25 @@ const PLACEHOLDER_IMAGES: [string, string, string] = [
 const PLACEHOLDER_LOGO = "/images/headshot.jpg";
 
 const entries: Experience[] = [
-    {
+  {
+    id: "bny-internship-2026-fall",
+    type: "Internship",
+    title: "Software Engineering Intern",
+    organization: "Bank of New York",
+    startDate: "2026-08",
+    endDate: "2026-11",
+    description:
+      "Fintech Infrastructure",
+    bullets: [],
+    skills: ["Python", "Java", "PostgreSQL", "FastAPI", "Spring Boot", "Docker", "Grafana", "Prometheus", "AppDynamics"],
+    images: ["/images/experiences/bny-cohort.jpg", "/images/experiences/bny-team.jpg"],
+    logo: "/images/logos/bny.png",
+    links: [
+      { label: "BNY", url: "https://www.bny.com" },
+    ],
+    incoming: true,
+  },  
+  {
     id: "ist-internship-2026",
     type: "Internship",
     title: "Software Engineering Intern",
@@ -18,7 +36,7 @@ const entries: Experience[] = [
     startDate: "2026-05",
     endDate: "2026-07",
     description:
-      "METIL Simjam Internship — Placeholder description for an upcoming internship. Focus on the project or team you’ll be working with, and what you hope to learn.",
+      "Collaborated with a team to develop simulation and training solutions for the Department of Energy, engaging with stakeholders and leadership to assess requirements, and utilizing technologies such as AR/VR, AI, and robotics in a project presentation to leadership.",
     bullets: [
       "Built a placeholder pipeline processing X events per day.",
       "Wrote placeholder number of tests covering placeholder percent of the codebase.",
@@ -26,14 +44,14 @@ const entries: Experience[] = [
     ],
     skills: ["Unity", "C++", "AI", "Simulation"],
     images: PLACEHOLDER_IMAGES,
-    logo: PLACEHOLDER_LOGO,
+    logo: "/images/logos/ist.jpg",
     links: [
       { label: "IST", url: "https://www.ist.ucf.edu/" },
     ],
     incoming: true,
   },
   {
-    id: "bny-internship-2026",
+    id: "bny-internship-2026-spring",
     type: "Internship",
     title: "Software Engineering Intern",
     organization: "Bank of New York",
