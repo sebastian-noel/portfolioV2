@@ -36,19 +36,18 @@ const entries: Experience[] = [
     startDate: "2026-05",
     endDate: "2026-07",
     description:
-      "Collaborated with a team to develop simulation and training solutions for the Department of Energy, engaging with stakeholders and leadership to assess requirements, and utilizing technologies such as AR/VR, AI, and robotics in a project presentation to leadership.",
+      "Using RealityScan to create riggable 3D models with high detail for Unity developed VR applications",
     bullets: [
       "Built a placeholder pipeline processing X events per day.",
       "Wrote placeholder number of tests covering placeholder percent of the codebase.",
       "Presented a placeholder demo to a cross-functional audience.",
     ],
-    skills: ["Unity", "C++", "AI", "Simulation"],
+    skills: ["Unity", "C#", "AI", "Photogrammetry", "3D Modeling", "Documentation"],
     images: PLACEHOLDER_IMAGES,
     logo: "/images/logos/ist.jpg",
     links: [
       { label: "IST", url: "https://www.ist.ucf.edu/" },
     ],
-    incoming: true,
   },
   {
     id: "bny-internship-2026-spring",
